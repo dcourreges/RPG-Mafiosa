@@ -5,6 +5,7 @@ class Mafieu : public Character {
 private:
     int xp;
     int influence;
+    int getCar = 0;
 
 public:
     Mafieu(std::string n) : Character(n, 40, 6), xp(0), influence(0) {}
@@ -13,6 +14,7 @@ public:
     void addInfluence(int amount);
 
     int getXP() const;
+    int getCar() const;
     int getInfluence() const;
 };
 

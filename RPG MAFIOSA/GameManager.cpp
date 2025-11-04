@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "PM.h"
 #include "GN.h"
+#include "mafieu.h"
 #include <iostream>
 
 GameManager::GameManager() : mafieu("Ange") {
@@ -51,12 +52,11 @@ void GameManager::run() {
 
 )" << '\n';
 
-	int getCar = 0;
 
     while (mafieu.isAlive()) {
 
 
-        if (getCar != 1) {
+        if (mafieu.getCar != 1) {
 
             std::cout << "\nQue voulez-vous faire ?" << std::endl;
             std::cout << "1. Marcher au village (+2XP)" << std::endl;

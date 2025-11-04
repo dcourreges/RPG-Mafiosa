@@ -2,7 +2,7 @@
 
 int main() {
     GameManager game;
-    game.run();
+    game.Init();
     return 0;
 }
 

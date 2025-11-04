@@ -11,7 +11,7 @@ private:
 public:
     GameManager();
     ~GameManager();
-    void run();
+    void Init();
 };
 
 

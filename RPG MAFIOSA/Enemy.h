@@ -1,10 +1,9 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
+#include "Character.h"
 
-class Enemy
-{
+class Enemy : public Character {
+public:
+    Enemy(std::string n, int h, int a) : Character(n, h, a) {}
 };
+
 

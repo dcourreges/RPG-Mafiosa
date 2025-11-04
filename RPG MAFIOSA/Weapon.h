@@ -1,10 +1,16 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
+#include <string>
 
-class Weapon
-{
+class Weapon {
+protected:
+    std::string name;
+    int damage;
+
+public:
+    Weapon(std::string n, int d) : name(n), damage(d) {}
+    virtual ~Weapon() {}
+
+    int getDamage() const { return damage; }
+    std::string getName() const { return name; }
 };
 

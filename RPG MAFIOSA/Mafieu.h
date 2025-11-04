@@ -1,17 +1,18 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
 #include "Character.h"
 
+class Mafieu : public Character {
+private:
+    int xp;
+    int influence;
 
-class Mafieu : public Character
-{
-public :
+public:
+    Mafieu(std::string n) : Character(n, 40, 6), xp(0), influence(0) {}
 
-	void Attack() { std::cout << "Vous utilisez intimidation"; }
+    void addXP(int amount);
+    void addInfluence(int amount);
 
-
+    int getXP() const;
+    int getInfluence() const;
 };
 

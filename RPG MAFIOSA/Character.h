@@ -1,37 +1,19 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
+#include <string>
 
-
-
-class Character
-{
-private:
-	std::string name;
-	int health;
-	std::vector<Character*> characters;
-	characters.push_back(new Mafieu("Ange"));
-	characters.push_back(new Mafieu("Francois"));
-
+class Character {
+protected:
+    std::string name;
+    int hp;
+    int attack;
 
 public:
+    Character(std::string n, int h, int a) : name(n), hp(h), attack(a) {}
+    virtual ~Character() {}
 
-	Character(const std::string& n, int h)
-		: name(n), health(h) {}
-
-
-	void CharaDisplay() const {
-
-		std::cout << name << " - PV: " << health << std::endl;
-	}
-
-	void Attack() const {
-
-		std::cout << "Vous utilisez intimidation !" << std::endl;
-
-	}
-
+    virtual void takeDamage(int dmg);
+    bool isAlive() const;
+    std::string getName() const;
+    int getHP() const;
+    int getAttack() const;
 };
-

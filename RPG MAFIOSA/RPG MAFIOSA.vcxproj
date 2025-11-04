@@ -129,6 +129,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fusil.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Glock17.cpp" />
     <ClCompile Include="GN.cpp" />
     <ClCompile Include="Mafieu.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fusil.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Glock17.h" />
     <ClInclude Include="GN.h" />
     <ClInclude Include="Mafieu.h" />

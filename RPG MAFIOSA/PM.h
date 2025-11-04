@@ -1,10 +1,9 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
+#include "Enemy.h"
 
-class PM
-{
+class Pm : public Enemy {
+public:
+    Pm() : Enemy("Police Municipale", 20, 4) {}
 };
+
 

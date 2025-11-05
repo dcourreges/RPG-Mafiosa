@@ -1,28 +1,35 @@
-#include "Mafieu.h"
+﻿#include "Mafieu.h"
+#include <iostream>
 
-void Mafieu::addXP(int amount) { xp += amount; }
-void Mafieu::addLevel(int amount){
-	while (xp >= 100)
-	{
-		xp = xp - 100;
-		level++;
-		return;
-	}
+Mafieu::Mafieu(std::string n) : Character(n, 40, 6), xp(0), influence(0), car(0), level(1), weapon(nullptr) {}
 
-
+void Mafieu::addXP(int amount) {
+    xp += amount;
+    addLevel(0);
 }
+
+void Mafieu::addLevel(int) {
+    while (xp >= 100) {
+        xp -= 100;
+        level++;
+        std::cout << "🎉 Niveau augmenté ! Vous êtes maintenant niveau " << level << std::endl;
+    }
+}
+
 void Mafieu::addInfluence(int amount) { influence += amount; }
-void Mafieu::setCar(int amount) { car = 1; }
-
-
-int Mafieu::getLevel() const { return level; }
+void Mafieu::setCar(int value) { car = value; }
 int Mafieu::getXP() const { return xp; }
+int Mafieu::getLevel() const { return level; }
+int Mafieu::getCar() const { return car; }
 int Mafieu::getInfluence() const { return influence; }
-int Mafieu::getCar() const { return car;}
-int Mafieu::dice() const { return rnumber;}
 
+void Mafieu::equipWeapon(Weapon* w) { weapon = w; }
 
-//int GenerateRandomNumber(int min, int max)
-//{
-//	return min + rand() % (max + 1 - min);
-//}
+int Mafieu::getAttack() const {
+    return weapon ? weapon->getDamage() : attack;
+}
+
+void Mafieu::attack(Character* target) {
+    std::cout << "🔫 Ange attaque " << target->getName() << " !" << std::endl;
+    target->takeDamage(getAttack());
+}

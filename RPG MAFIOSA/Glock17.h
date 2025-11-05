@@ -1,10 +1,9 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <cstdlib>
+#include "Weapon.h"
 
-class Glock17
-{
+class Glock17 : public Weapon {
+public:
+    Glock17() : Weapon("Glock 17", 10) {}
 };
+
 

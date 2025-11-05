@@ -12,6 +12,7 @@ public:
     GameManager();
     ~GameManager();
     void Init();
+    void pve(Enemy* ennemi);
 };
 
 

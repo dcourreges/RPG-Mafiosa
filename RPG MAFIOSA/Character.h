@@ -8,12 +8,15 @@ protected:
     int attack;
 
 public:
-    Character(std::string n, int h, int a) : name(n), hp(h), attack(a) {}
-    virtual ~Character() {}
+    Character(const std::string& n, int h, int a);
+    virtual ~Character();
 
     virtual void takeDamage(int dmg);
+
+    virtual void attack(Character* target);
+    virtual int getAttack() const;
+
     bool isAlive() const;
     std::string getName() const;
     int getHP() const;
-    int getAttack() const;
 };

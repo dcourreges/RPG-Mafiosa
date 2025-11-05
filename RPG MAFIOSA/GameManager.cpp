@@ -1,14 +1,44 @@
-#include "GameManager.h"
+﻿#include "GameManager.h"
 #include "PM.h"
 #include "GN.h"
 #include "mafieu.h"
 #include <iostream>
-
+#include <cstdlib>
+#include <ctime>
+#include "Glock17.h"
 
 GameManager::GameManager() : mafieu("Ange") {
     enemies.push_back(new Pm());
     enemies.push_back(new Gn());
+    srand(static_cast<unsigned>(time(0)));
+    mafieu.equipWeapon(nullptr);
+}
 
+
+void GameManager::pve(Enemy* ennemi) {
+    std::cout << "\nCombat contre " << ennemi->getName() << " !" << std::endl;
+
+    while (mafieu.isAlive() && ennemi->isAlive()) {
+        std::cout << "\nTour du Mafieu :\n";
+        mafieu.attack(ennemi);
+
+        if (!ennemi->isAlive()) {
+            std::cout << ennemi->getName() << " est vaincu ! 🏆\n";
+            mafieu.addXP(5);
+            mafieu.addInfluence(2);
+            return;
+        }
+
+        std::cout << "\nTour de " << ennemi->getName() << " :\n";
+        ennemi->attack(&mafieu);
+
+        std::cout << "\nPV Mafieu : " << mafieu.getHP()
+            << " | PV Ennemi : " << ennemi->getHP() << std::endl;
+    }
+
+    if (!mafieu.isAlive()) {
+        std::cout << "Vous avez été vaincu par " << ennemi->getName() << " ! 😵\n";
+    }
 }
 
 GameManager::~GameManager() {

@@ -106,7 +106,7 @@ void GameManager::Init() {
             }
             else if (choix == 2) {
                 system("cls");
-
+                std::cout << "Vous marcher en direction de la mairie. (+2 XP)" << std::endl;
 
 
 

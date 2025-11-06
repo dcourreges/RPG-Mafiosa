@@ -1,7 +1,7 @@
 #include "Mafieu.h"
 #include <iostream>
 
-Mafieu::Mafieu(std::string n) : Character(n, 50, 6), xp(0), influence(0), car(0), level(1), weapon(nullptr) {}
+Mafieu::Mafieu(std::string n) : Character(n, 50, 6), xp(0), influence(0), car(0), level(1), bdg(0), weapon(nullptr) {}
 
 void Mafieu::addXP(int amount) {
     xp += amount;
@@ -16,6 +16,7 @@ void Mafieu::addLevel(int) {
     }
 }
 
+void Mafieu::subInfluence(int amount) { influence -= amount; }
 void Mafieu::addInfluence(int amount) { influence += amount; }
 void Mafieu::setCar(int value) { car = value; }
 
@@ -31,6 +32,6 @@ void Mafieu::equipWeapon(Weapon* w) { weapon = w; }
 int Mafieu::getAttack() const { return 0; }
 
 void Mafieu::MAttack(Character* target) {
-    std::cout << "Ange attaque " << target->getName() << " !" << std::endl;
+    std::cout << "Rumanu attaque " << target->getName() << " !" << std::endl;
     target->takeDamage(getAttack());
 }

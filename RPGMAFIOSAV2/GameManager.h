@@ -14,6 +14,7 @@ public:
     void CombatPm();
     void CombatGn();
     void Init();
+    void Rejouer();
 };
 
 

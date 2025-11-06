@@ -2,6 +2,7 @@
 #include "PM.h"
 #include "GN.h"
 #include "mafieu.h"
+#include "Windows.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -18,8 +19,8 @@ GameManager::~GameManager() {
     for (auto e : enemies) delete e;
 }
 
-void GameManager::CombatPolice() {
-    Character police("Police Municipale", 5, 2);
+void GameManager::CombatPm() {
+    Character police("Police Municipale", 20, 2);
 
     std::cout << "\nCombat contre la Police Municipale engage !" << std::endl;
 
@@ -29,45 +30,157 @@ void GameManager::CombatPolice() {
         std::cin >> choix;
 
         if (choix == 1) {
+            system("cls");
             mafieu.MAttack(&police);
-            std::cout << "Vous attaquez la police !" << std::endl;
+            std::cout << "Vous intimidez l'agent !" << std::endl;
             police.takeDamage(3);
         }
         else if (choix == 2) {
+            system("cls");
             int dmg = mafieu.getAttack() + 2;
             police.takeDamage(5);
-            std::cout << "Attaque spéciale inflige " << dmg << " dégâts !" << std::endl;
+            std::cout << "Vous avez tirer deux cartouche de fusil sur le policier." << std::endl;
         }
         else if (choix == 3) {
+            system("cls");
             int dmg = mafieu.LanceAttack();
             police.takeDamage(10);
-            std::cout << "Attaque au lance inflige " << dmg << " dégâts !" << std::endl;
+            std::cout << "Vous avez placer un explosif sur le policier." << std::endl;
+        }
+        else {
+
+            std::cout << "Vous avez manquer votre coup." << std::endl;
+
         }
 
         if (police.isAlive()) {
             int attaque = rand() % 2;
             if (attaque == 0) {
-                mafieu.takeDamage(2);
-                std::cout << "La police vous frappe avec une matraque ! (-2 PV)" << std::endl;
+                mafieu.takeDamage(5);
+                std::cout << "La police vous frappe avec une matraque ! (-5 PV)" << std::endl;
             }
             else {
-                mafieu.takeDamage(1);
-                std::cout << "La police vous percute avec un vélo électrique ! (-1 PV)" << std::endl;
+                mafieu.takeDamage(2);
+                std::cout << "La police vous percute avec un velo electrique ! (-2 PV)" << std::endl;
             }
         }
 
-        std::cout << "\nPV Ange : " << mafieu.getHP() << " | PV Police : " << police.getHP() << std::endl;
+        std::cout << "\n| PV Ange : " << mafieu.getHP() << "\n| PV Police : " << police.getHP() << std::endl;
     }
 
     if (!mafieu.isAlive()) {
-        std::cout << "\n❌ Vous avez perdu le combat contre la Police Municipale..." << std::endl;
+        std::cout << "\nVous avez perdu le combat contre la Police Municipale..." << std::endl;
     }
     else {
-        std::cout << "\n✅ Vous avez vaincu la Police Municipale !" << std::endl;
+        std::cout << "\nVous avez tuer un agent de la Police Municipale !" << std::endl;
         mafieu.addXP(5);
-        mafieu.addInfluence(5);
+        mafieu.addInfluence(2);
+        int choixpm;
+        std::cout << "\nQue vouslez vous faire de son corp ?\n\n1. Le laisser sur le sol\n2. Le mettre dans le maquis" << std::endl;
+        std::cin >> choixpm;
+        if (choixpm == 1) {
+            std::cout << "Vous avez laisser le corp de l'agent sur le sol ! (+ 5 INFLUENCE)" << std::endl;
+            mafieu.addXP(10);
+            mafieu.addInfluence(5);
+        }
+        else if (choixpm == 2) {
+            std::cout << "Vous avez mit le corp de l'agent dans le maquis ! (+ 10XP)" << std::endl;
+            mafieu.addXP(10);
+        }
     }
 }
+
+
+void GameManager::CombatGn() {
+    Character gendarme("Gendarmerie", 50, 2);
+
+    std::cout << "\nCombat contre la Gendarmerie engage !" << std::endl;
+
+    while (mafieu.isAlive() && gendarme.isAlive()) {
+        std::cout << "\nQue voulez-vous faire ?\n1. Intimidation (-3 PV)\n2. Coup de fusil de chasse (-5 PV)\n3. Plasticage (-10)" << std::endl;
+        int choix;
+        std::cin >> choix;
+
+        if (choix == 1) {
+            system("cls");
+            mafieu.MAttack(&gendarme);
+            std::cout << "Vous intimidez l'agent !" << std::endl;
+            int attaque = rand() % 2;
+            if (attaque == 0) {
+                gendarme.takeDamage(3);
+                std::cout << "Vous avez intimide l'agent" << std::endl;
+            }
+            else {
+                std::cout << "L'agent ignore votre intimidation." << std::endl;
+            }
+        }
+        else if (choix == 2) {
+            system("cls");
+            int dmg = mafieu.getAttack() + 2;
+            gendarme.takeDamage(5);
+            std::cout << "Vous avez tirer deux cartouche de fusil sur le gendarme." << std::endl;
+        }
+        else if (choix == 3) {
+            system("cls");
+            int dmg = mafieu.LanceAttack();
+            gendarme.takeDamage(10);
+            std::cout << "Vous avez placer un explosif sur le gendarme." << std::endl;
+        }
+        else {
+
+            std::cout << "Vous avez manquer votre coup." << std::endl;
+
+        }
+
+        if (gendarme.isAlive()) {
+            int attaque = rand() % 100;
+            if (attaque <= 75) {
+                mafieu.takeDamage(7);
+                std::cout << "Le gendarme utilise son Glock 17 sur Ange ! (-7 PV)" << std::endl;
+            }
+            else {
+                std::cout << "Le gendarme utilise ses menottes !\n\nVous etes arretez, cependant une obtion s'offre a vous. \nVous pouvez tentez de corrompre le gendarme." << std::endl;
+                int choixgn;
+                std::cout << "\nAcceptez vous cette tentative ?\n\n1. Oui\n2. Non (Prison)" << std::endl;
+                std::cin >> choixgn;
+                if (choixgn == 1) {
+                    std::cout << "Vous tentez de corrompre le gendarme." << std::endl;
+                    mafieu.addXP(10);
+                    mafieu.addInfluence(5);
+                }
+                else if (choixgn == 2) {
+                    std::cout << "Vous avez mit le corp de l'agent dans le maquis ! (+ 10XP)" << std::endl;
+                    mafieu.addXP(10);
+                }
+            
+            }
+        }
+
+        std::cout << "\n| PV Ange : " << mafieu.getHP() << "\n| PV Gendarme : " << gendarme.getHP() << std::endl;
+    }
+
+    if (!mafieu.isAlive()) {
+        std::cout << "\nVous avez ete arrete par la Gendarmerie..." << std::endl;
+    }
+    else {
+        std::cout << "\nVous avez tuer un agent de la Gendarmerie !" << std::endl;
+        mafieu.addXP(5);
+        mafieu.addInfluence(2);
+        int choixgn;
+        std::cout << "\nQue vouslez vous faire de son corp ?\n\n1. Le laisser sur le sol\n2. Le mettre dans le maquis" << std::endl;
+        std::cin >> choixgn;
+        if (choixgn == 1) {
+            std::cout << "Vous avez laisser le corp de l'agent sur le sol ! (+ 5 INFLUENCE)" << std::endl;
+            mafieu.addXP(10);
+            mafieu.addInfluence(5);
+        }
+        else if (choixgn == 2) {
+            std::cout << "Vous avez mit le corp de l'agent dans le maquis ! (+ 10XP)" << std::endl;
+            mafieu.addXP(10);
+        }
+    }
+}
+
 
 
 void GameManager::Init()
@@ -126,18 +239,82 @@ void GameManager::Init()
 
                 if (choix == 1) {
                     mafieu.addXP(2);
-                    mafieu.addLevel(2);
+                    mafieu.addLevel(0);
                     system("cls");
                     std::cout << "Vous vous promenez dans le village. (+2 XP)" << std::endl;
+
+                    int rencontre = rand() % 100;
+
+                    if (rencontre < 25) {
+                        std::cout << "\nVous croisez le maire sur votre chemin !" << std::endl;
+                        std::cout << "1. Bonjour\n2. Menacer\n3. Insulter" << std::endl;
+                        int choixmaire;
+                        std::cin >> choixmaire;
+
+                        if (choixmaire == 1) {
+                            std::cout << "\nVous obtenez un permis de construire. (+10 Influence)" << std::endl;
+                            mafieu.addInfluence(10);
+                        }
+                        else if (choixmaire == 2 && mafieu.getInfluence() >= 50) {
+                            if (bouteilledegaz == 0) {
+                                std::cout << "\nLe maire vous donne une bouteille de gaz !" << std::endl;
+                                bouteilledegaz = 1;
+                            }
+                            else {
+                                std::cout << "\nVous possedez deja une bouteille de gaz." << std::endl;
+                            }
+                        }
+                        else if (choixmaire == 3) {
+                            std::cout << "X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X" << std::endl;
+                            std::cout << "Ange : Ecoute moi bien O manghia merda ! Tu m'as pris pour qui ?\n" << std::endl;
+                            std::cout << "Le maire : La police municipale est en route, vous devriez partir Ange !\n";
+                            std::cout << "X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X" << std::endl;
+                            CombatPm();
+                        }
+                        else {
+                            std::cout << "\nLe maire vous ignore." << std::endl;
+                        }
+                    }
+                    else if (rencontre < 50) {
+                        std::cout << "\nLa Police Municipale vous interpelle !" << std::endl;
+                        CombatPm();
+                    }
+
                 }
                 else if (choix == 2) {
+                    mafieu.addXP(2);
+                    mafieu.addLevel(0);
                     system("cls");
-                    std::cout << "Vous marcher en direction de la mairie. (+2 XP)" << std::endl;
+                    std::cout << "Vous marchez en direction de la mairie. (+2 XP)" << std::endl;
+                    std::cout << "Le maire : Bonjour Ange !" << std::endl;
+                    std::cout << "1. Bonjour\n2. Menacer\n3. Insulter" << std::endl;
 
+                    int choixmaire;
+                    std::cin >> choixmaire;
 
-
-
-
+                    if (choixmaire == 1) {
+                        std::cout << "\nVous obtenez un permis de construire. (+10 Influence)" << std::endl;
+                        mafieu.addInfluence(10);
+                    }
+                    else if (choixmaire == 2 && mafieu.getInfluence() >= 50) {
+                        if (bouteilledegaz == 0) {
+                            std::cout << "\nLe maire vous donne une bouteille de gaz !" << std::endl;
+                            bouteilledegaz = 1;
+                        }
+                        else {
+                            std::cout << "\nVous possédez deja une bouteille de gaz." << std::endl;
+                        }
+                    }
+                    else if (choixmaire == 3) {
+                        std::cout << "X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X" << std::endl;
+                        std::cout << "Ange : Ecoute moi bien O manghia merda ! Tu m'as pris pour qui ?\n" << std::endl;
+                        std::cout << "Le maire : La police municipale est en route, vous devriez partir Ange !\n";
+                        std::cout << "X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X" << std::endl;
+                        CombatPm();
+                    }
+                    else {
+                        std::cout << "\nLe maire vous ignore." << std::endl;
+                    }
 
                 }
                 else if (choix == 3) {
@@ -222,7 +399,7 @@ void GameManager::Init()
                     }
                     else if (rencontre < 50) {
                         std::cout << "\nLa Police Municipale vous interpelle !" << std::endl;
-                        CombatPolice();
+                        CombatPm();
                     }
 
                 }
@@ -230,7 +407,7 @@ void GameManager::Init()
                     mafieu.addXP(2);
                     mafieu.addLevel(0);
                     system("cls");
-                    std::cout << "Vous allez à la mairie. (+2 XP)" << std::endl;
+                    std::cout << "Vous roulez en direction de la mairie. (+2 XP)" << std::endl;
                     std::cout << "Le maire : Bonjour Ange !" << std::endl;
                     std::cout << "1. Bonjour\n2. Menacer\n3. Insulter" << std::endl;
 
@@ -268,24 +445,34 @@ void GameManager::Init()
                         mafieu.addXP(4);
                         mafieu.addLevel(2);
                         system("cls");
-                        std::cout << "Vous roulez en ville avec votre voiture. (+4 XP)" << std::endl;
-                    }
+                        int rencontre = rand() % 2;
+
+                        if (rencontre == 1) {
+                            std::cout << "Vous roulez en ville avec votre voiture. (+4 XP)" << std::endl;
+                            std::cout << "\nLa gendarmerie vous controle !" << std::endl;
+                            CombatGn();
+                            
+                        }
+                        else
+                            std::cout << "Vous roulez en ville avec votre voiture. (+4 XP)" << std::endl;
+                        }
 
                 }
                 else {
                     system("cls");
                     std::cout << "Choix invalide." << std::endl;
                 }
-
-                std::cout << "\nX===========================X" << std::endl;
-                std::cout << " | Sante de Ange: " << mafieu.getHP() << std::endl;
-                std::cout << " | XP: " << mafieu.getXP() << std::endl;
-                std::cout << " | Level: " << mafieu.getLevel() << std::endl;
-                std::cout << " | Influence: " << mafieu.getInfluence() << std::endl;
-                std::cout << "X===========================X\n" << std::endl;
             }
 
-            std::cout << "C'est terminé ! Vous avez ete placer en garde a vu. Ange a ete condamnee a deux ans de prison pour agression..." << std::endl;
+            std::cout << "\nX===========================X" << std::endl;
+            std::cout << " | Sante de Ange: " << mafieu.getHP() << std::endl;
+            std::cout << " | XP: " << mafieu.getXP() << " / 100" << std::endl;
+            std::cout << " | Level: " << mafieu.getLevel() << std::endl;
+            std::cout << " | Influence: " << mafieu.getInfluence() << std::endl;
+            std::cout << "X===========================X\n" << std::endl;
+
+        }
+            std::cout << "C'est termine ! Vous avez ete placer en garde a vu. Ange a ete condamnee a deux ans de prison pour agression..." << std::endl;
             std::cout << R"(
                                                                                             
                                                                                                     
@@ -309,7 +496,7 @@ void GameManager::Init()
                                                                                                     
 
         )" << '\n';
-        }
+
 
 
     }

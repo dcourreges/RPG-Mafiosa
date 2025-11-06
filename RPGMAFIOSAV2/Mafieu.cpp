@@ -1,7 +1,7 @@
 #include "Mafieu.h"
 #include <iostream>
 
-Mafieu::Mafieu(std::string n) : Character(n, 40, 6), xp(0), influence(0), car(0), level(1), weapon(nullptr) {}
+Mafieu::Mafieu(std::string n) : Character(n, 50, 6), xp(0), influence(0), car(0), level(1), weapon(nullptr) {}
 
 void Mafieu::addXP(int amount) {
     xp += amount;

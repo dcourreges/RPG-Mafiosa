@@ -11,7 +11,8 @@ private:
 public:
     GameManager();
     ~GameManager();
-    void CombatPolice();
+    void CombatPm();
+    void CombatGn();
     void Init();
 };
 

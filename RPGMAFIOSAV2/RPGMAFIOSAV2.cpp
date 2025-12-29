@@ -2,6 +2,7 @@
 
 int main() {
     GameManager game;
-    game.Init();
+	
+	game.Menu();
     return 0;
 }

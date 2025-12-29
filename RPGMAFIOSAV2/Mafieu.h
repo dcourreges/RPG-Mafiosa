@@ -9,6 +9,8 @@ private:
     int car;
     int level;
     int bdg;
+	int money;
+    int pdc;
     Weapon* weapon;
 
 public:
@@ -19,7 +21,12 @@ public:
     void addInfluence(int amount);
     void subInfluence(int amount);
     void setCar(int value);
+    void setMoney(int value);
+    void setPdc(int value);
     void equipWeapon(Weapon* w);
+
+    void addMoney(int amount);
+    void subMoney(int amount);
 
     int getXP() const;
     int getLevel() const;
@@ -27,12 +34,23 @@ public:
     int getInfluence() const;
     int getAttack() const override;
 	int getBdg() const { return bdg; }
+    int getMoney() const;
 
     void setHP(int value) { hp = value; }
     void setInflu(int value) { influence = value; }
     void setLvl(int value) { level = value; }
     void setBdg(int value) { bdg = value; }
     void MAttack(Character* target);
+	void addPdc(int amount) { pdc += amount; }
+
+    void ResetStats() {
+        hp = 100;
+        xp = 0;
+        influence = 0;
+        car = 0;
+        level = 1;
+        bdg = 0;
+    }
 };
 
 

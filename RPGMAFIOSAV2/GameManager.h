@@ -14,7 +14,12 @@ public:
     void CombatPm();
     void CombatGn();
     void Init();
-    void Rejouer();
+  /*  bool Rejouer();*/
+    void EndingCheck(int end);
+    void Credit();
+    void Quest(int quest);
+	void Menu();
+	void Chargement();
 };
 
 

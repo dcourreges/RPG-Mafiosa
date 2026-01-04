@@ -215,9 +215,6 @@ void GameManager::EndingCheck(int end)
         std::cout << "1..." << std::endl;
         Sleep(1000);
         system("cls");
-        std::cout << "0..." << std::endl;
-        Sleep(1000);
-        system("cls");
         std::cout << "L'URSAFF a ete detruit ! Felicitations Rumanu, vous avez reussi votre mission !";
         std::cout << "\033[33m" << R"(
                                                                                             
@@ -576,11 +573,13 @@ void GameManager::Init()
 				Quest(quest);
 
                 std::cout << "\nX===========================X" << std::endl;
-                std::cout << " | Sante de Rumanu: " << mafieu.getHP() << std::endl;
-                std::cout << " | XP: " << mafieu.getXP() << " / 100" << std::endl;
-                std::cout << " | Level: " << mafieu.getLevel() << std::endl;
-                std::cout << " | Influence: " << mafieu.getInfluence() << std::endl;
-				std::cout << " | Argent: " << mafieu.getMoney() << " euros" << std::endl;
+                std::cout << "| Sante de Rumanu: " << mafieu.getHP() << std::endl;
+                std::cout << "| XP: " << mafieu.getXP() << " / 100" << std::endl;
+                std::cout << "| Level: " << mafieu.getLevel() << std::endl;
+                std::cout << "| Influence: " << mafieu.getInfluence() << std::endl;
+                std::cout << "X===========================X" << std::endl;
+				std::cout << "| Argent: " << mafieu.getMoney() << " euros" << std::endl;
+				std::cout << "| Nombre de permis de construire: " << mafieu.getPdc() << std::endl;
                 std::cout << "X===========================X\n" << std::endl;
 
                 std::cout << "Que voulez-vous faire ?" << std::endl;
@@ -692,14 +691,15 @@ void GameManager::Init()
 						system("cls");
                         std::cout << "\nVous obtenez un permis de construire. (+10 Influence)\n" << std::endl;
                         mafieu.addInfluence(10);
+                        mafieu.addPdc(1);
                     }
                     else if (choixmaire == 2 && mafieu.getInfluence() >= 50) {
-                        if (bouteilledegaz == 0) {
+                        if (mafieu.getBdg() != 1) {
                             system("cls");
                             std::cout << "\nLe maire vous donne une bouteille de gaz !" << std::endl;
                             mafieu.setBdg(1);
                         }
-                        else {
+                        else if (mafieu.getBdg() == 1) {
                             system("cls");
                             std::cout << "\nVous possedez deja une bouteille de gaz." << std::endl;
                         }
@@ -723,6 +723,7 @@ void GameManager::Init()
                     }
 
                     else if (choixmaire == 3) {
+						system("cls");
                         std::cout << "X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X" << std::endl;
                         std::cout << "Rumanu : Ecoute moi bien O manghia merda ! Tu m'as pris pour qui ?\n" << std::endl;
                         std::cout << "Le maire : La police municipale est en route, vous devriez partir Rumanu !\n";
@@ -730,7 +731,8 @@ void GameManager::Init()
                         CombatPm();
                     }
                     else {
-                        std::cout << "\nLe maire vous ignore." << std::endl;
+						system("cls");
+                        std::cout << "\nLe maire vous ignore.\n" << std::endl;
                     }
 
                 }
@@ -751,7 +753,19 @@ void GameManager::Init()
                         mafieu.addLevel(2);
                         int rencontre = rand() % 2;
 
-						std::cout << "1. Rouler sur la cote \n2. Se rendre a l'hopitale\n3. Se rendre sur un terrain vague (+4 XP)" << std::endl;
+						std::cout << "1. Rouler sur la cote \n2. Se rendre a l'hopitale" << std::endl;
+                        if (mafieu.getPossession() == 0)
+                        {
+                            std::cout << "3. Se rendre sur un terrain vague(+4 XP)" << std::endl;
+                        }
+                        else if (mafieu.getPossession() == 1)
+                        {
+                            std::cout << "3. Se rendre a votre hotel" << std::endl;
+                        }
+                        else if (mafieu.getPossession() == 2)
+                        {
+                            std::cout << "3. Se rendre a votre centre de tri" << std::endl;
+                        }
 
 						int choix;
 						std::cin >> choix;
@@ -777,7 +791,7 @@ void GameManager::Init()
                                 if (mafieu.getHP() < 25) {
                                     mafieu.setHP(100);
                                     system("cls");
-                                    std::cout << "Vous avez ete soigne a l'hopitale. (+100 PV)" << std::endl;
+                                    std::cout << "Vous avez ete soigne a l'hopitale. (+100 PV)\n" << std::endl;
                                     mafieu.subMoney(100);
                                 }
                                 else {
@@ -790,7 +804,7 @@ void GameManager::Init()
                             }
                             else {
                                 system("cls");
-                                std::cout << "Test hosto non" << std::endl;
+                                std::cout << "Vous reprenez votre chemin." << std::endl;
                                 Sleep(2000);
                                 system("cls");
 
@@ -799,7 +813,25 @@ void GameManager::Init()
                         else if (choix == 3)
                         {
                             system("cls");
-                            std::cout << "Terrain vage test" << std::endl;
+                            if (mafieu.getPossession() == 0) {
+                                std::cout << "Que voulez vous faire ?\n" << std::endl;
+                                std::cout << "1. Construire un hotel (Necessite 3 permis de construire et 1000 euros)\n2. Contruire un centre de tri";
+                                int choixpos;
+                                std::cin >> choixpos;
+                                if (choixpos == 1) {
+                                    if (mafieu.getPdc() >= 3 && mafieu.getMoney() >= 1000) {
+                                        system("cls");
+                                        std::cout << "Vous avez construit un hotel. Vous aurez maintenant une revenue de 200 euros par tour." << std::endl;
+                                        mafieu.subMoney(1000);
+                                        mafieu.subPdc(3);
+                                    }
+                                    else {
+                                        system("cls");
+                                        std::cout << "Il vous faut 3 permis de construire et 1000 euros pour contruire un hotel.\n" << std::endl;
+                                    }
+                                }
+                            }
+
                         }
 
                         
@@ -848,8 +880,13 @@ void GameManager::Init()
                         std::cout << "Que voulez-vous faire ?" << std::endl;
                         std::cout << "1. Gain 50 XP" << std::endl;
                         std::cout << "2. Gain 50 influence" << std::endl;
-                        std::cout << "3. Gain voiture\n" << std::endl;
-                        std::cout << "20. CHEAT OFF" << std::endl;
+                        std::cout << "3. Gain voiture" << std::endl;
+						std::cout << "4. Set PV" << std::endl;
+						std::cout << "5. Remplire la vie" << std::endl;
+                        std::cout << "6. Forcer combat Gendarmerie" << std::endl;
+						std::cout << "7. Forcer combat Police Municipale" << std::endl;
+                        std::cout << "8. Set money" << std::endl;
+                        std::cout << "\n20. CHEAT OFF" << std::endl;
                         int choixcheat;
                         std::cin >> choixcheat;
                         if (choixcheat == 1) {
@@ -868,6 +905,41 @@ void GameManager::Init()
                             std::cout << "Vous avez une voiture !" << std::endl;
                         }
 
+                        else if (choixcheat == 4) {
+                            mafieu.setHP(15);
+                            system("cls");
+                            std::cout << "Vos PV ont ete regles a 15 !" << std::endl;
+                        }
+
+                        else if (choixcheat == 5) {
+                            mafieu.setHP(100);
+                            system("cls");
+                            std::cout << "Votre vie est maintenant remplis" << std::endl;
+                        }
+
+                        else if (choixcheat == 6) {
+                            system("cls");
+                            std::cout << "Vous avez forcer le combat avec la Gendarmerie\n" << std::endl;
+                            CombatGn();
+                        }
+                        else if (choixcheat == 7) {
+                            system("cls");
+                            std::cout << "Vous avez forcer le combat avec la Police Municipale\n" << std::endl;
+                            CombatPm();
+                        }
+                        else if (choixcheat == 8) {
+                            system("cls");
+                            int value;
+                            std::cout << "Combien voulez vous mettre d'argent ?" << std::endl;
+                            std::cin >> value;
+                            mafieu.setMoney(value);
+                            system("cls");
+                            std::cout << "Vous avez set votre argent sur " << value << " euros" << std::endl;
+                        }
+                        else if (choixcheat == 20) {
+                            system("cls");
+                            std::cout << "Cheat OFF\n" << std::endl;
+                        }
                     }
                 }
 
